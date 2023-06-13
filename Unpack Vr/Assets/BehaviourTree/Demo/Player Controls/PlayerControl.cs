@@ -42,6 +42,7 @@ public class PlayerControl : MonoBehaviour
     public bool holding = false;
     public GameObject holdingObj = null;
     public GameObject holdingZone;
+    public float throwforce;
 
         [Header("Rigidbody Settings :")]
     public Rigidbody rb;
@@ -118,47 +119,40 @@ public class PlayerControl : MonoBehaviour
     // Future update is to merge this into the interactable system but I'm still not sure its the right call to make.
     private void DoGrab(InputAction.CallbackContext obj)
     {
-        //GameObject object1;
-        //RaycastHit ObjectHit;
-        //Physics.Raycast(cam.transform.position,cam.transform.forward, out ObjectHit);
+        GameObject object1;
+        RaycastHit ObjectHit;
+        Physics.Raycast(cam.transform.position, cam.transform.forward, out ObjectHit);
 
-        //if(ObjectHit.distance < 2 && !holding)
-        //{
-        //    if (ObjectHit.rigidbody != null)
-        //    {
-        //        object1 = ObjectHit.transform.gameObject;
+        if (ObjectHit.distance < 2 && !holding)
+        {
+            if (ObjectHit.rigidbody != null)
+            {
+                object1 = ObjectHit.transform.gameObject;
 
-        //        if (object1.tag == "Grabable")
-        //        {
-        //            holdingObj = object1;
-        //            holding = true;
-
-
-        //            holdingZone.GetComponent<FixedJoint>().connectedBody = holdingObj.GetComponent<Rigidbody>();
-
-        //            if (holdingObj.GetComponent<MeepMoopScript>())
-        //            {
-        //                holdingObj.GetComponent<MeepMoopScript>().Grabbed();
-        //            }
-        //        }
-        //    }
-
-        //}
-        //else if (holding)
-        //{
-        //    holdingZone.GetComponent<FixedJoint>().connectedBody = null;
-        //    holdingObj.GetComponent<Rigidbody>().velocity = cam.transform.forward * 10;
-
-        //    if (holdingObj.GetComponent<MeepMoopScript>())
-        //    {
-        //        holdingObj.GetComponent<MeepMoopScript>().Grabbed();
-        //    }
+               if (object1.GetComponent<Grabbable>())
+                {
+                    holdingObj = object1;
+                    holding = true;
 
 
-        //    holding = false;
-        //    holdingObj = null;
+                    holdingZone.GetComponent<FixedJoint>().connectedBody = holdingObj.GetComponent<Rigidbody>();
 
-        //}
+                
+                }
+            }
+
+        }
+        else if (holding)
+        {
+            holdingZone.GetComponent<FixedJoint>().connectedBody = null;
+            holdingObj.GetComponent<Rigidbody>().velocity = cam.transform.forward * 10;
+
+
+
+            holding = false;
+            holdingObj = null;
+
+        }
 
     }
     private void DoJump(InputAction.CallbackContext obj)
