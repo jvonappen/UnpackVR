@@ -109,6 +109,9 @@ public class PlayerControl : MonoBehaviour
 
     }
 
+    private void DoPunch(InputAction.CallbackContext obj) 
+    { 
+    }
     // This is unrelated to movement player movement, allows the player to punch with their physics based fists!
 
     // This is unrelated to movement player movement, allows the player to pick up grabbable objects in the world.
